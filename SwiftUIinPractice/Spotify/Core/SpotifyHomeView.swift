@@ -7,8 +7,11 @@
 
 import SwiftUI
 import SwiftfulUI
+import SwiftfulRouting
 
 struct SpotifyHomeView: View {
+    
+    @Environment(\.router) var router
     
     @State private var currentUser: User? = nil
     @State private var selectedCategory: Category? = nil
@@ -86,7 +89,7 @@ struct SpotifyHomeView: View {
                         .background(.spotifyWhite)
                         .clipShape(Circle())
                         .onTapGesture {
-                            
+                            router.dismissScreen()
                         }
                 }
             }
@@ -127,9 +130,17 @@ struct SpotifyHomeView: View {
                 SpotifyRecentsCell(imageName: product.firstImage,
                                    title: product.title)
                 .asButton(.press) {
-                    
+                    goToPlayListView(product: product)
                 }
             }
+        }
+    }
+    
+    private func goToPlayListView(product: Product) {
+        guard let currentUser else { return }
+        
+        router.showScreen(.push) { _ in
+            SpotifyPlaylistView(product: product, user: currentUser)
         }
     }
     
@@ -146,7 +157,7 @@ struct SpotifyHomeView: View {
                 
             },
             onPlayPressed: {
-                
+                goToPlayListView(product: product)
             }
         )
     }
@@ -170,7 +181,7 @@ struct SpotifyHomeView: View {
                                 title: product.title
                             )
                             .asButton(.press) {
-                                
+                                goToPlayListView(product: product)
                             }
                         }
                     }
@@ -186,5 +197,8 @@ struct SpotifyHomeView: View {
 }
 
 #Preview {
-    SpotifyHomeView()
+    RouterView { _ in
+        SpotifyHomeView()
+    }
+    
 }
