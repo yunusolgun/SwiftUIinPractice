@@ -24,9 +24,15 @@ struct User: Codable, Identifiable {
     let height: Double
     let weight: Double
     
-    var work = "Worker as Some Job"
-    var education = "Graduate Degree"
-    var aboutMe = "This is a sentence about me that is longer than 100 characters so that I can test the multiline text"
+    var work: String  {
+        "Worker as Some Job"
+    }
+    var education: String {
+        "Graduate Degree"
+    }
+    var aboutMe: String {
+        "This is a sentence about me that is longer than 100 characters so that I can test the multiline text"
+    }
     
     var basics: [UserInterest] {
         [
